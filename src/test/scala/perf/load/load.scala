@@ -13,11 +13,11 @@ class load extends Simulation {
 
   setUp(
     GrpcScenario.scn.inject(
-      incrementUsersPerSec(5)        // +5 rps за ступень
-        .times(5)                    // 5 ступеней
-        .eachLevelLasting(1.minute)  // по 1 минуте
+      incrementConcurrentUsers(200)
+        .times(5)
+        .eachLevelLasting(1.minute)
         .separatedByRampsLasting(30.seconds)
-        .startingFrom(5)             // стартовая нагрузка
+        .startingFrom(200)
     )
   ).protocols(grpcProtocol)
     .maxDuration(10.minutes)
