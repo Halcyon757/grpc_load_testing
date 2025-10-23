@@ -11,18 +11,16 @@ import auth.AuthGrpc
 
 object GrpcMethods {
 
-  // TODO: сделать рандомные фидеры
-
   val register: ChainBuilder =
     exec(
       grpc("Register")
         .rpc(AuthGrpc.METHOD_REGISTER)
-        .payload(
+        .payload { session =>
           RegisterRequest(
-            email = "test@example.com",
-            password = "password123"
+            email    = session("email").as[String],
+            password = session("password").as[String]
           )
-        )
+        }
         .check(statusCode is Status.Code.OK)
         .check(
           extract[RegisterResponse, Long](r => Success(Some(r.userId)))
@@ -34,13 +32,13 @@ object GrpcMethods {
     exec(
       grpc("Login")
         .rpc(AuthGrpc.METHOD_LOGIN)
-        .payload(
+        .payload { session =>
           LoginRequest(
-            email = "test@example.com",
-            password = "password123",
-            appId = 1
+            email    = session("email").as[String],
+            password = session("password").as[String],
+            appId    = session("appId").as[Int]
           )
-        )
+        }
         .check(statusCode is Status.Code.OK)
         .check(
           extract[LoginResponse, String](r => Success(Option(r.token)))
@@ -48,7 +46,7 @@ object GrpcMethods {
         )
     )
 
-  val isAdmin: ChainBuilder =
+  val isAdminFalse: ChainBuilder =
     exec(
       grpc("IsAdmin")
         .rpc(AuthGrpc.METHOD_IS_ADMIN)
