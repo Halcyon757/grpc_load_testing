@@ -1,9 +1,9 @@
 ## Запуск
 
-### 1) Поднять gRPC сервер
+### 1) Склонируйте gRPC сервер
 https://github.com/Madi-S/grpc-server-client-example
 
-#### 1.1) Прокинуть порты в docker-compose.yml
+#### 1.1) Прокиньте порты в docker-compose.yml
 ```yaml
 grpc-server:
   build:
@@ -13,7 +13,7 @@ grpc-server:
   ports:
     - "44044:44044"
 ```
-#### 1.1) Прокинуть порты в docker-compose.yml
+#### 1.2) Запустите проект
 ```bash
 docker-compose up --build
 ```
